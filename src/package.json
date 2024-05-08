@@ -1,0 +1,25 @@
+{
+  "name": "@unvus/code-genie",
+  "version": "0.0.1",
+  "description": "Unvus Code-Genie sample Generator",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./init.js"
+  },
+  "main": "init.js",
+  "bin": {
+    "codegenie": "./init.js"
+  },
+  "keywords": [
+    "code-genie",
+    "codegenie",
+    "unvus"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unvus/code-genie-cli.git"
+  },
+  "homepage": "https://dev.unvus.com/code-genie/genie.conf.js",
+  "author": "guava.tak@unvus.com",
+  "license": "ISC"
+}

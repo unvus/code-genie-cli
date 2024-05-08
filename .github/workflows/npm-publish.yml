@@ -1,0 +1,40 @@
+name: Publish to NPM
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install npm
+        run: |
+          cd ./src/
+          npm install
+
+      - name: Install dependencies
+        run: |
+          cd ./src/
+          npm ci
+
+#      - name: Npm Version Patch
+#        run: |
+#          cd ./src/
+#          npm version patch
+
+
+      - name: Publish to npm
+        run: |
+          cd ./src/
+          npm publish --access public --registry https://registry.npmjs.org/
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUB_TOKEN}}
