@@ -224,7 +224,7 @@ module.exports.getConfig = (userCfg, path, _, crypto) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // 1. SQL Dir GEN
-        const sqlDirPath = path.join(genieConfDir, 'genie-sql');
+        const sqlDirPath = path.join(currentDir, 'genie-sql');
         fs.mkdirSync(sqlDirPath);
 
             const mysqlDirPath = path.join(sqlDirPath, 'mysql');
