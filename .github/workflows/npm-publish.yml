@@ -39,8 +39,7 @@ jobs:
       # FIXME: email, name
       - name: Git Commit
         run: |
-          git config --global user.email ''
-          git config --global user.name "unvus"
+          git config --global user.name "GitHub-Actions"
           git add .
           git commit -m "Bump Version"
 
@@ -50,7 +49,7 @@ jobs:
           cd ./src/
           npm publish --access public --registry https://registry.npmjs.org/
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_PUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.genie_NPM_TOKEN.TOKEN}}
 
       - name: git push
         run: git push origin main
