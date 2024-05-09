@@ -5,10 +5,10 @@ const fs = require('fs');
 const path = require('path');
 
 (() => {
-    console.log('[lucas-cli-test] RUN.');
+    console.log('[unvus code-genie] RUN.');
 
     const opt = process.argv[2];
-    console.log("OPTIONS : " + process.argv[2]); // Options
+    console.log("OPTIONS : " + process.argv[2]); // Options1
 
     if (opt !== 'init' || opt === '' || opt === null) {
         console.log("Error: not required Command");
@@ -284,9 +284,9 @@ module.exports.getConfig = (userCfg, path, _, crypto) => {
         console.log('make "genie-sql" Directory and Sample Files!');
 
     } else {
-        console.log('genie-config directory already exists.');
+        console.log('genie-config Directory Already Exists.');
         return;
     }
 
-    console.log("Success: Directory and make File Success!!");
+    console.log("Success: Make Directories and Files!!");
 })();
