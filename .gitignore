@@ -10,3 +10,5 @@
 /copilot/chatSessions
 
 .idea/**
+
+/src/package-lock.json

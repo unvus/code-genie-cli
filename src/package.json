@@ -1,6 +1,6 @@
 {
   "name": "@unvus/code-genie",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Unvus Code-Genie sample Generator",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

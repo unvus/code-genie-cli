@@ -2,6 +2,11 @@ name: Publish to NPM
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version type to bump (patch, minor, major)'
+        required: true
+        default: 'patch'
 
 jobs:
   publish:
@@ -26,15 +31,26 @@ jobs:
           cd ./src/
           npm ci
 
-#      - name: Npm Version Patch
-#        run: |
-#          cd ./src/
-#          npm version patch
+      - name: Npm Version Patch
+        run: |
+          cd ./src/
+          npm version ${{ github.event.inputs.version }}
 
+      # FIXME: email, name
+      - name: Git Commit
+        run: |
+          git config --global user.email ''
+          git config --global user.name "unvus"
+          git add .
+          git commit -m "Bump Version"
 
+      # FIXME: Secret Value
       - name: Publish to npm
         run: |
           cd ./src/
           npm publish --access public --registry https://registry.npmjs.org/
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUB_TOKEN}}
+
+      - name: git push
+        run: git push origin main
