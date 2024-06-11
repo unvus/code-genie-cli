@@ -16,4 +16,8 @@ cd {Your Modules Directory}
 npm i -g @unvus/code-genie
 
 codegenie init
+
+# Or You can use Simple Generate Command
+# Use This Option, You can Generate Simple Config File.
+codegenie init simple
 ```

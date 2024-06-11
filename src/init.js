@@ -15,6 +15,9 @@ const path = require('path');
         return;
     }
 
+    const opt2 = process.argv?.[3];
+    if(opt2 !== null || opt2 !== undefined) {console.log("OPTIONS2 : " + opt2)}; // Options2}
+
     // current directory path get
     const currentDir = process.cwd();
 
@@ -27,11 +30,87 @@ const path = require('path');
         fs.mkdirSync(genieConfDir);
         console.log('make "genie-config" Directory!!');
 
+        let genieConfCode = null;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////     CONF GEN     /////////////////////////////////////////////
+//////////////////////////////////////    SIMPLE CONF GEN     ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-        // genie.conf.js file code write
-        const genieConfCode = `
+        if(opt2 === 'simple') {
+            genieConfCode = `
+/**
+ * genie.conf-simple-sample.js
+ * @param {*} userCfg 코드지니 화면에서 사용자가 설정한 내용이 담겨져 있습니다.
+ * @param {*} path node:path 모듈입니다.
+ * @param {*} _ lodash 입니다.
+ * @param {*} crypto node:crypto 모듈입니다.
+ * @returns baseConfig, globalEngines, moduleCallback 세가지를 반환합니다.
+ */
+module.exports.getConfig = (userCfg, path, _, crypto) => {
+  // =============================================================================== 1. baseConfig
+
+    const baseConfig = {
+        builderName: 'Unvus simple Project Builder',
+        gitName: 'simple',
+        name: 'simple-builder',
+        id: 'simple-builder',
+        basePackage: 'com.unvus.simple',
+        catalogSchema: 'testDb',
+        tablePrefix: 'nv_',
+        modules: [],
+        dataSourceNames: [],
+        includeRedis: true
+    };
+
+    const engineRootCopy = {
+        engine: 'CopyAndReplaceContent',
+        path : '',
+        recursive: true, // recursive 가 false 이면, 디렉토리는 제외
+        excludes: [],
+        replaces: [
+            {from: 'com.unvus.simple', to: userCfg.basePackage},
+            {from: 'simple', to: userCfg.id},
+            {from: 'Simple', to: userCfg.idName},
+        ],
+        renames: [
+            {from: 'simple', to: userCfg.id},
+            {from: 'Simple', to: userCfg.idName},
+        ]
+    };
+
+    /**
+     * Java 패키지를 이동하는 엔진 설정입니다.
+     */
+    const moveBase = {
+        engine: 'MoveJavaPackage',
+        javaBase: path.join('src', 'main', 'java'),
+        fromPackage: baseConfig.basePackage + '.' + 'builder',
+        toPackage: userCfg.basePackage + '.' + 'builder'
+    };
+
+    /**
+     * Java Test 패키지를 이동하는 엔진 설정입니다.
+     */
+    const moveTestBase = {
+        engine: 'MoveJavaPackage',
+        javaBase: path.join('src', 'test', 'java'),
+        fromPackage: baseConfig.basePackage + '.' + 'builder',
+        toPackage: userCfg.basePackage + '.' + 'builder'
+    };
+
+    const globalEngines = [engineRootCopy, moveBase, moveTestBase];
+
+    return {
+        baseConfig, globalEngines
+    }
+}
+           `
+        }else {
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////     FULL CONF GEN     ////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+            // genie.conf.js file code write
+            genieConfCode = `
 /**
  * genie.conf-full-sample.js
  * @param {*} userCfg 코드지니 화면에서 사용자가 설정한 내용이 담겨져 있습니다.
@@ -210,6 +289,7 @@ module.exports.getConfig = (userCfg, path, _, crypto) => {
   }
 }
 `;
+        } //else
 
         // genie.conf.js make file path
         const genieConfFile = path.join(genieConfDir, 'genie.conf.js');
@@ -227,10 +307,10 @@ module.exports.getConfig = (userCfg, path, _, crypto) => {
         const sqlDirPath = path.join(currentDir, 'genie-sql');
         fs.mkdirSync(sqlDirPath);
 
-            const mysqlDirPath = path.join(sqlDirPath, 'mysql');
-            const oracleDirPath = path.join(sqlDirPath, 'oracle');
-            const postgreDirPath = path.join(sqlDirPath, 'postgresql');
-            const sqlServerDirPath = path.join(sqlDirPath, 'sqlserver');
+        const mysqlDirPath = path.join(sqlDirPath, 'mysql');
+        const oracleDirPath = path.join(sqlDirPath, 'oracle');
+        const postgreDirPath = path.join(sqlDirPath, 'postgresql');
+        const sqlServerDirPath = path.join(sqlDirPath, 'sqlserver');
 
         fs.mkdirSync(mysqlDirPath);
         fs.mkdirSync(oracleDirPath);
